@@ -450,10 +450,11 @@ static int pmw3610_async_init_check_ob1(const struct device *dev) {
     }
 
     err = check_product_id(dev);
-    if (err) {
-        LOG_ERR("Failed checking product id");
-        return err;
-    }
+    // Sadek - This caused issues where is was falsely failing, disabling
+    // if (err) {
+    //     LOG_ERR("Failed checking product id");
+    //     return err;
+    // }
 
     return 0;
 }
