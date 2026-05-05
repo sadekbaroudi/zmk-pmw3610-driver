@@ -1,4 +1,4 @@
-PMW3610 driver implementation for ZMK with at least Zephyr 3.5
+PMW3610 driver implementation for ZMK (compatible with Zephyr 4.1 / ZMK v0.4)
 
 This work is based on [ufan's implementation](https://github.com/ufan/zmk/tree/support-trackpad) of the driver.
 
@@ -12,29 +12,19 @@ Include this project on your ZMK's west manifest in `config/west.yml`:
 manifest:
   remotes:
     - name: zmkfirmware
-      url-base: https://github.com/petejohanson
-    - name: inorichi
-      url-base: https://github.com/inorichi
+      url-base: https://github.com/zmkfirmware
+    - name: sadekbaroudi
+      url-base: https://github.com/sadekbaroudi
   projects:
     - name: zmk
       remote: zmkfirmware
-      revision: feat/pointers-move-scroll
+      revision: main
       import: app/west.yml
     - name: zmk-pmw3610-driver
-      remote: inorichi
+      remote: sadekbaroudi
       revision: main
   self:
     path: config
-```
-
-Then, edit your `build.yml` to look like this, 3.5 is now on main:
-
-```yml
-on: [workflow_dispatch]
-
-jobs:
-  build:
-    uses: zmkfirmware/zmk/.github/workflows/build-user-config.yml@main
 ```
 
 Now, update your `board.overlay` adding the necessary bits (update the pins for your board accordingly):
@@ -69,7 +59,7 @@ Now, update your `board.overlay` adding the necessary bits (update the pins for 
 
     trackball: trackball@0 {
         status = "okay";
-        compatible = "pixart,pmw3610";
+        compatible = "pixart,pmw3610-zmk";
         reg = <0>;
         spi-max-frequency = <2000000>;
         irq-gpios = <&gpio0 6 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>;
@@ -111,5 +101,6 @@ Now enable the driver config in your `board.config` file (read the Kconfig file 
 CONFIG_SPI=y
 CONFIG_INPUT=y
 CONFIG_ZMK_MOUSE=y
-CONFIG_PMW3610=y
+# CONFIG_PMW3610 is auto-enabled when the pixart,pmw3610-zmk node is present in the devicetree.
+# You can still set CONFIG_PMW3610=y explicitly if preferred.
 ```
