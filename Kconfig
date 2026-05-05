@@ -6,7 +6,9 @@
 #
 
 menuconfig PMW3610
-    bool "PMW3610 mouse optical sensor"
+    bool "PMW3610 mouse optical sensor (ZMK out-of-tree)"
+    default y
+    depends on DT_HAS_PIXART_PMW3610_ZMK_ENABLED
   select SPI
     help
       Enable PMW3610 mouse optical sensor.

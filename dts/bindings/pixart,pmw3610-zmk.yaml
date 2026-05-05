@@ -1,7 +1,7 @@
 description: |
-  Sensor driver for the pixart PMW3610 mouse sensor
+  Sensor driver for the pixart PMW3610 mouse sensor (ZMK out-of-tree)
 
-compatible: "pixart,pmw3610"
+compatible: "pixart,pmw3610-zmk"
 
 include: spi-device.yaml
 
